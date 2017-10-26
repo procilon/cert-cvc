@@ -26,66 +26,67 @@ import java.security.cert.CertificateException;
  * Wrapper of CVCertificate that extends java.security.cert.Certificate
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
- * @version $Id: CardVerifiableCertificate.java 5999 2008-08-12 15:41:09Z keijox $
+ * @version $Id: CardVerifiableCertificate.java 5999 2008-08-12 15:41:09Z keijox
+ *          $
  */
-public class CardVerifiableCertificate
-      extends Certificate {
+public class CardVerifiableCertificate extends Certificate {
 
-   private CVCertificate cvc;
+    private CVCertificate cvc;
 
-   /**
-    * Constructs an instance from a CVCertificate
-    * @param cvc
-    */
-   public CardVerifiableCertificate(CVCertificate cvc) {
-      super("CVC");
-      this.cvc = cvc;
-   }
-   
-   /**
-    * Returns embedded CVCertificate
-    * @return
-    */
-   public CVCertificate getCVCertificate() {
-      return cvc;
-   }
+    /**
+     * Constructs an instance from a CVCertificate
+     * 
+     * @param cvc
+     */
+    public CardVerifiableCertificate(CVCertificate cvc) {
+	super("CVC");
+	this.cvc = cvc;
+    }
 
-   @Override
-   public byte[] getEncoded() throws CertificateEncodingException {
-      try {
-         return cvc.getDEREncoded();
-      }
-      catch( IOException e ){
-         throw new CertificateEncodingException(e);
-      }
-   }
+    /**
+     * Returns embedded CVCertificate
+     * 
+     * @return
+     */
+    public CVCertificate getCVCertificate() {
+	return cvc;
+    }
 
-   @Override
-   public PublicKey getPublicKey() {
-      try {
-         return cvc.getCertificateBody().getPublicKey();
-      }
-      catch (NoSuchFieldException e) {
-         e.printStackTrace();
-         return null;
-      }
-   }
+    @Override
+    public byte[] getEncoded() throws CertificateEncodingException {
+	try {
+	    return cvc.getDEREncoded();
+	} catch (IOException e) {
+	    throw new CertificateEncodingException(e);
+	}
+    }
 
-   @Override
-   public void verify(PublicKey key) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-      verify(key, "BC");
-   }
+    @Override
+    public PublicKey getPublicKey() {
+	try {
+	    return cvc.getCertificateBody().getPublicKey();
+	} catch (NoSuchFieldException e) {
+	    e.printStackTrace();
+	    return null;
+	}
+    }
 
-   @Override
-   public void verify(PublicKey key, String sigProvider) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException,
-         SignatureException {
+    @Override
+    public void verify(PublicKey key) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException,
+	    NoSuchProviderException, SignatureException {
+	verify(key, "BC");
+    }
 
-      cvc.verify(key, sigProvider);
-   }
+    @Override
+    public void verify(PublicKey key, String sigProvider) throws CertificateException, NoSuchAlgorithmException,
+	    InvalidKeyException, NoSuchProviderException, SignatureException {
 
-   @Override
-   public String toString() {
-      return cvc.toString();
-   }
+	cvc.verify(key, sigProvider);
+    }
+
+    @Override
+    public String toString() {
+	return cvc.toString();
+    }
 
 }

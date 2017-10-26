@@ -25,10 +25,9 @@ import org.ejbca.cvc.CVCertificate;
 import org.ejbca.cvc.CertificateGenerator;
 import org.ejbca.cvc.HolderReferenceField;
 
-
 /**
- * Example code for generating a CVC request having an outer signature,
- * i e request used for certificate renewal.
+ * Example code for generating a CVC request having an outer signature, i e
+ * request used for certificate renewal.
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
  * @version $Id: GenerateRequest.java 9077 2010-05-20 10:57:01Z anatom $
@@ -36,37 +35,41 @@ import org.ejbca.cvc.HolderReferenceField;
  */
 public final class GenerateRequest {
 
-	private GenerateRequest() {}
+    private GenerateRequest() {
+    }
 
-   public static void main(final String[] args) {
-      try {
-         // Install Bouncy Castle as security provider 
-         Security.addProvider(new BouncyCastleProvider());
+    public static void main(final String[] args) {
+	try {
+	    // Install Bouncy Castle as security provider
+	    Security.addProvider(new BouncyCastleProvider());
 
-         // Create a new key pair
-         final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA", "BC");
-         keyGen.initialize(1024, new SecureRandom());
-         final KeyPair keyPair = keyGen.generateKeyPair();
+	    // Create a new key pair
+	    final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA", "BC");
+	    keyGen.initialize(1024, new SecureRandom());
+	    final KeyPair keyPair = keyGen.generateKeyPair();
 
-         /* Certificate Authority Reference shall identify the public key in the last request */
-         final CAReferenceField previousHolderRef = new CAReferenceField("SE","PASSRD1","00008");
-         /* Certificate Holder Reference is incremented to reflect the new key pair */
-         final HolderReferenceField holderRef = new HolderReferenceField("SE","PASSRD1","00009");
+	    /*
+	     * Certificate Authority Reference shall identify the public key in the last
+	     * request
+	     */
+	    final CAReferenceField previousHolderRef = new CAReferenceField("SE", "PASSRD1", "00008");
+	    /* Certificate Holder Reference is incremented to reflect the new key pair */
+	    final HolderReferenceField holderRef = new HolderReferenceField("SE", "PASSRD1", "00009");
 
-         final String algorithmName = "SHA256WITHRSAANDMGF1";
+	    final String algorithmName = "SHA256WITHRSAANDMGF1";
 
-         // Call CertificateGenerator
-         CVCertificate request = CertificateGenerator.createRequest(keyPair, algorithmName, holderRef);
-         System.out.println(request.getAsText()); // NOPMD
+	    // Call CertificateGenerator
+	    CVCertificate request = CertificateGenerator.createRequest(keyPair, algorithmName, holderRef);
+	    System.out.println(request.getAsText()); // NOPMD
 
-         CVCAuthenticatedRequest authRequest = CertificateGenerator.createAuthenticatedRequest(request, keyPair, algorithmName, previousHolderRef);
-         System.out.println(authRequest.getAsText()); // NOPMD
-         
-         FileHelper.writeFile(new File("C:/cv_certs/request1.cvcert"), authRequest.getDEREncoded());
-      }
-      catch( Exception e ){
-         e.printStackTrace(); // NOPMD
-      }
-   }
+	    CVCAuthenticatedRequest authRequest = CertificateGenerator.createAuthenticatedRequest(request, keyPair,
+		    algorithmName, previousHolderRef);
+	    System.out.println(authRequest.getAsText()); // NOPMD
+
+	    FileHelper.writeFile(new File("C:/cv_certs/request1.cvcert"), authRequest.getDEREncoded());
+	} catch (Exception e) {
+	    e.printStackTrace(); // NOPMD
+	}
+    }
 
 }

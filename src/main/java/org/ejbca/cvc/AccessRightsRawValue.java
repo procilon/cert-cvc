@@ -13,30 +13,30 @@
 package org.ejbca.cvc;
 
 /**
- * Internal object representing an access rights value of an unknown type.
- * These objects should be replaced by AuthorizationField.fixEnumTypes
- * and should never occur outside of CERT-CVC.
+ * Internal object representing an access rights value of an unknown type. These
+ * objects should be replaced by AuthorizationField.fixEnumTypes and should
+ * never occur outside of CERT-CVC.
  * 
  * @author Samuel Lidén Borell, PrimeKey Solutions AB
  * @version $Id: AccessRightsRawValue.java 18548 2014-03-04 11:46:03Z samuellb $
  */
 public class AccessRightsRawValue implements AccessRights {
 
-   private static final String EXCEPTION_MSG = "Access Right object does not know its type/OID yet. This is a bug.";
-   private final byte[] bytes;
+    private static final String EXCEPTION_MSG = "Access Right object does not know its type/OID yet. This is a bug.";
+    private final byte[] bytes;
 
-   AccessRightsRawValue(byte[] bytes) {
-      this.bytes = bytes;
-   }
+    AccessRightsRawValue(byte[] bytes) {
+	this.bytes = bytes;
+    }
 
-   @Override
-   public byte[] getEncoded() {
-      return bytes;
-   }
+    @Override
+    public byte[] getEncoded() {
+	return bytes;
+    }
 
-   @Override
-   public String name() {
-      throw new IllegalStateException(EXCEPTION_MSG);
-   }
+    @Override
+    public String name() {
+	throw new IllegalStateException(EXCEPTION_MSG);
+    }
 
 }

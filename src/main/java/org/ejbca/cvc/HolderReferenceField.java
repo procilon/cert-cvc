@@ -16,7 +16,8 @@ package org.ejbca.cvc;
  * Represents the field Certificate Holder Reference.
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
- * @version $Id: HolderReferenceField.java 20720 2015-02-19 16:56:59Z mikekushner $
+ * @version $Id: HolderReferenceField.java 20720 2015-02-19 16:56:59Z
+ *          mikekushner $
  */
 public class HolderReferenceField extends ReferenceField {
 
@@ -33,7 +34,7 @@ public class HolderReferenceField extends ReferenceField {
      *            - Sequence Number (exactly 5 alphanumeric characters)
      */
     public HolderReferenceField(String country, String mnemonic, String seq) {
-        super(CVCTagEnum.HOLDER_REFERENCE, country, mnemonic, seq);
+	super(CVCTagEnum.HOLDER_REFERENCE, country, mnemonic, seq);
     }
 
     /**
@@ -42,7 +43,7 @@ public class HolderReferenceField extends ReferenceField {
      * @param data
      */
     public HolderReferenceField(byte[] data) {
-        super(CVCTagEnum.HOLDER_REFERENCE, data);
+	super(CVCTagEnum.HOLDER_REFERENCE, data);
     }
 
 }

@@ -20,34 +20,34 @@ package org.ejbca.cvc.exception;
  */
 public class ParseException extends CvcException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-   /**
-    * @see Exception
-    */
-   public ParseException() {
-      super();
-   }
+    /**
+     * @see Exception
+     */
+    public ParseException() {
+	super();
+    }
 
-   /**
-    * @see Exception
-    */
-   public ParseException(final String msg) {
-      super(msg);
-   }
+    /**
+     * @see Exception
+     */
+    public ParseException(final String msg) {
+	super(msg);
+    }
 
-   /**
-    * @see Exception
-    */
-   public ParseException(final Throwable t){
-      super(t);
-   }
+    /**
+     * @see Exception
+     */
+    public ParseException(final Throwable t) {
+	super(t);
+    }
 
-   /**
-    * @see Exception
-    */
-   public ParseException(final String msg, final Throwable t){
-      super(msg, t);
-   }
+    /**
+     * @see Exception
+     */
+    public ParseException(final String msg, final Throwable t) {
+	super(msg, t);
+    }
 
 }

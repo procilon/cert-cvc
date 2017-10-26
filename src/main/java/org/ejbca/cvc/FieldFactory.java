@@ -23,33 +23,52 @@ import java.io.IOException;
  */
 public class FieldFactory {
 
-   /**
-    * Constructs a new instance and populates it with data from the supplied
-    * DER-encoded byte array.
-    * @param tag
-    * @param data
-    * @return
-    * @throws IOException
-    * @throws IllegalArgumentException if the tag represents a sequence
-    */
-   public static AbstractDataField decodeField(CVCTagEnum tag, byte[] data) throws IOException {
-      if( tag.isSequence() ) {
-         throw new IllegalArgumentException("Tag " + tag + " is a sequence");
-      }
-      
-      AbstractDataField fieldObject = null;
-      switch( tag ){
-         case EFFECTIVE_DATE         : fieldObject = new DateField(tag, data); break;
-         case EXPIRATION_DATE        : fieldObject = new DateField(tag, data); break;
-         case CA_REFERENCE           : fieldObject = new CAReferenceField(data); break;
-         case HOLDER_REFERENCE       : fieldObject = new HolderReferenceField(data); break;
-         case OID                    : fieldObject = new OIDField(data); break;
-         case ROLE_AND_ACCESS_RIGHTS : fieldObject = new AuthorizationField(data); break;
-         case PROFILE_IDENTIFIER     : fieldObject = new IntegerField(tag, data); break;
-         case COFACTOR_F             : fieldObject = new IntegerField(tag, data); break;
-         default                     : fieldObject = new ByteField(tag, data);
-      }
-      return fieldObject;
-   }
+    /**
+     * Constructs a new instance and populates it with data from the supplied
+     * DER-encoded byte array.
+     * 
+     * @param tag
+     * @param data
+     * @return
+     * @throws IOException
+     * @throws IllegalArgumentException
+     *             if the tag represents a sequence
+     */
+    public static AbstractDataField decodeField(CVCTagEnum tag, byte[] data) throws IOException {
+	if (tag.isSequence()) {
+	    throw new IllegalArgumentException("Tag " + tag + " is a sequence");
+	}
+
+	AbstractDataField fieldObject = null;
+	switch (tag) {
+	case EFFECTIVE_DATE:
+	    fieldObject = new DateField(tag, data);
+	    break;
+	case EXPIRATION_DATE:
+	    fieldObject = new DateField(tag, data);
+	    break;
+	case CA_REFERENCE:
+	    fieldObject = new CAReferenceField(data);
+	    break;
+	case HOLDER_REFERENCE:
+	    fieldObject = new HolderReferenceField(data);
+	    break;
+	case OID:
+	    fieldObject = new OIDField(data);
+	    break;
+	case ROLE_AND_ACCESS_RIGHTS:
+	    fieldObject = new AuthorizationField(data);
+	    break;
+	case PROFILE_IDENTIFIER:
+	    fieldObject = new IntegerField(tag, data);
+	    break;
+	case COFACTOR_F:
+	    fieldObject = new IntegerField(tag, data);
+	    break;
+	default:
+	    fieldObject = new ByteField(tag, data);
+	}
+	return fieldObject;
+    }
 
 }

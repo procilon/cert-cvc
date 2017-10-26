@@ -13,41 +13,42 @@
 package org.ejbca.cvc.exception;
 
 /**
- * Exception indicating that something went wrong while constructing some CVC object.
+ * Exception indicating that something went wrong while constructing some CVC
+ * object.
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
  * @version $Id: ConstructionException.java 9076 2010-05-20 09:19:37Z anatom $
  */
 public class ConstructionException extends CvcException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-   /**
-    * @see Exception
-    */
-   public ConstructionException() {
-      super();
-   }
-   
-   /**
-    * @see Exception
-    */
-   public ConstructionException(final String msg) {
-      super(msg);
-   }
-  
-   /**
-    * @see Exception
-    */
-   public ConstructionException(final Throwable t) {
-      super(t);
-   }
+    /**
+     * @see Exception
+     */
+    public ConstructionException() {
+	super();
+    }
 
-   /**
-    * @see Exception
-    */
-   public ConstructionException(final String msg, final Throwable t) {
-      super(msg, t);
-   }
+    /**
+     * @see Exception
+     */
+    public ConstructionException(final String msg) {
+	super(msg);
+    }
+
+    /**
+     * @see Exception
+     */
+    public ConstructionException(final Throwable t) {
+	super(t);
+    }
+
+    /**
+     * @see Exception
+     */
+    public ConstructionException(final String msg, final Throwable t) {
+	super(msg, t);
+    }
 
 }

@@ -16,7 +16,6 @@ import java.math.BigInteger;
 
 import org.ejbca.cvc.util.StringConverter;
 
-
 /**
  * Generic field representing binary data (or Octet String)
  * 
@@ -24,86 +23,92 @@ import org.ejbca.cvc.util.StringConverter;
  * @version $Id: ByteField.java 20720 2015-02-19 16:56:59Z mikekushner $
  *
  */
-public class ByteField
-      extends AbstractDataField {
+public class ByteField extends AbstractDataField {
 
     private static final long serialVersionUID = 1L;
     private byte[] data;
     private boolean showBitLength = false;
 
-   /**
-    * Constructor taking tag
-    * @param tag
-    */
-   ByteField(CVCTagEnum tag) {
-      super(tag);
-   }
+    /**
+     * Constructor taking tag
+     * 
+     * @param tag
+     */
+    ByteField(CVCTagEnum tag) {
+	super(tag);
+    }
 
-   /**
-    * Constructor taking tag and data
-    * @param tag
-    * @param data
-    */
-   ByteField(CVCTagEnum tag, byte[] data) {
-      this(tag, data, false);
-   }
+    /**
+     * Constructor taking tag and data
+     * 
+     * @param tag
+     * @param data
+     */
+    ByteField(CVCTagEnum tag, byte[] data) {
+	this(tag, data, false);
+    }
 
-   /**
-    * Constructor taking tag, data and flag indicating if data length should be
-    * shown in valueAsText()
-    * @param tag
-    * @param data
-    * @param showBitLength
-    */
-   ByteField(CVCTagEnum tag, byte[] data, boolean showBitLength) {
-      super(tag);
-      this.data = data;
-      this.showBitLength = showBitLength;
-   }
+    /**
+     * Constructor taking tag, data and flag indicating if data length should be
+     * shown in valueAsText()
+     * 
+     * @param tag
+     * @param data
+     * @param showBitLength
+     */
+    ByteField(CVCTagEnum tag, byte[] data, boolean showBitLength) {
+	super(tag);
+	this.data = data;
+	this.showBitLength = showBitLength;
+    }
 
-   
-   /**
-    * Returns flag for 'showBitLen'
-    * @return
-    */
-   public boolean isShowBitLength() {
-      return showBitLength;
-   }
+    /**
+     * Returns flag for 'showBitLen'
+     * 
+     * @return
+     */
+    public boolean isShowBitLength() {
+	return showBitLength;
+    }
 
-   /**
-    * Sets flag 'showBitLen'
-    * @param showBitLength - if true then valueAsText() will add an entry showing the length in bits
-    */
-   public void setShowBitLength(boolean showBitLength) {
-      this.showBitLength = showBitLength;
-   }
+    /**
+     * Sets flag 'showBitLen'
+     * 
+     * @param showBitLength
+     *            - if true then valueAsText() will add an entry showing the length
+     *            in bits
+     */
+    public void setShowBitLength(boolean showBitLength) {
+	this.showBitLength = showBitLength;
+    }
 
-   /**
-    * Returns the data.
-    * @return
-    */
-   public byte[] getData() {
-      return data;
-   }
+    /**
+     * Returns the data.
+     * 
+     * @return
+     */
+    public byte[] getData() {
+	return data;
+    }
 
-   @Override
-   protected byte[] getEncoded() {
-      return data;
-   }
+    @Override
+    protected byte[] getEncoded() {
+	return data;
+    }
 
-   @Override
-   protected String valueAsText() {
-      String lenInfo = "";
-      // Check if length in bits should be shown
-      if( showBitLength ){
-         int bitLength = 0;
-         if( data!=null ){
-            BigInteger big = new BigInteger(1, data);
-            bitLength = big.bitLength();
-         }
-         lenInfo = "[" + bitLength + "]  ";
-      }
-      return lenInfo + StringConverter.byteToHex(data);
-   }
+    @Override
+    protected String valueAsText() {
+	String lenInfo = "";
+	// Check if length in bits should be shown
+	if (showBitLength) {
+	    int bitLength = 0;
+	    if (data != null) {
+		BigInteger big = new BigInteger(1, data);
+		bitLength = big.bitLength();
+	    }
+	    lenInfo = "[" + bitLength + "]  ";
+	}
+	return lenInfo + StringConverter.byteToHex(data);
+    }
 
 }

@@ -20,10 +20,10 @@ package org.ejbca.cvc;
  */
 public interface AccessRights {
 
-   /** @return the encoded byte value */
-   byte[] getEncoded();
+    /** @return the encoded byte value */
+    byte[] getEncoded();
 
-   /** @see Enum#name() */
-   String name();
+    /** @see Enum#name() */
+    String name();
 
 }

@@ -26,11 +26,12 @@ import org.ejbca.cvc.exception.ConstructionException;
 public class PublicKeyRSA extends CVCPublicKey implements RSAPublicKey {
 
     private static final long serialVersionUID = 1L;
-    private static CVCTagEnum[] allowedFields = new CVCTagEnum[] { CVCTagEnum.OID, CVCTagEnum.MODULUS, CVCTagEnum.EXPONENT };
+    private static CVCTagEnum[] allowedFields = new CVCTagEnum[] { CVCTagEnum.OID, CVCTagEnum.MODULUS,
+	    CVCTagEnum.EXPONENT };
 
     @Override
     protected CVCTagEnum[] getAllowedFields() {
-        return allowedFields;
+	return allowedFields;
     }
 
     /**
@@ -40,13 +41,13 @@ public class PublicKeyRSA extends CVCPublicKey implements RSAPublicKey {
      * @throws NoSuchFieldException
      */
     PublicKeyRSA(GenericPublicKeyField genericKey) throws ConstructionException, NoSuchFieldException {
-        ByteField modulusField = (ByteField) genericKey.getSubfield(CVCTagEnum.MODULUS);
-        modulusField.setShowBitLength(true); // We want to see this when
-                                             // printing as text
+	ByteField modulusField = (ByteField) genericKey.getSubfield(CVCTagEnum.MODULUS);
+	modulusField.setShowBitLength(true); // We want to see this when
+					     // printing as text
 
-        addSubfield(genericKey.getSubfield(CVCTagEnum.OID));
-        addSubfield(modulusField);
-        addSubfield(genericKey.getSubfield(CVCTagEnum.EXPONENT));
+	addSubfield(genericKey.getSubfield(CVCTagEnum.OID));
+	addSubfield(modulusField);
+	addSubfield(genericKey.getSubfield(CVCTagEnum.EXPONENT));
     }
 
     /**
@@ -56,39 +57,39 @@ public class PublicKeyRSA extends CVCPublicKey implements RSAPublicKey {
      * @param pubKey
      */
     PublicKeyRSA(OIDField oid, RSAPublicKey rsaKey) throws ConstructionException {
-        super();
+	super();
 
-        addSubfield(oid);
-        addSubfield(new ByteField(CVCTagEnum.MODULUS, trimByteArray(rsaKey.getModulus().toByteArray()), true));
-        addSubfield(new ByteField(CVCTagEnum.EXPONENT, trimByteArray(rsaKey.getPublicExponent().toByteArray())));
+	addSubfield(oid);
+	addSubfield(new ByteField(CVCTagEnum.MODULUS, trimByteArray(rsaKey.getModulus().toByteArray()), true));
+	addSubfield(new ByteField(CVCTagEnum.EXPONENT, trimByteArray(rsaKey.getPublicExponent().toByteArray())));
     }
 
     public String getAlgorithm() {
-        return "RSA";
+	return "RSA";
     }
 
     public String getFormat() {
-        return "CVC"; // TODO: This OK?
+	return "CVC"; // TODO: This OK?
     }
 
     public BigInteger getPublicExponent() {
-        try {
-            ByteField exp = (ByteField) getSubfield(CVCTagEnum.EXPONENT);
-            return new BigInteger(1, exp.getData());
-        } catch (NoSuchFieldException e) {
-            // This object has not been created correctly?
-            throw new IllegalStateException(e);
-        }
+	try {
+	    ByteField exp = (ByteField) getSubfield(CVCTagEnum.EXPONENT);
+	    return new BigInteger(1, exp.getData());
+	} catch (NoSuchFieldException e) {
+	    // This object has not been created correctly?
+	    throw new IllegalStateException(e);
+	}
     }
 
     public BigInteger getModulus() {
-        try {
-            ByteField exp = (ByteField) getSubfield(CVCTagEnum.MODULUS);
-            return new BigInteger(1, exp.getData());
-        } catch (NoSuchFieldException e) {
-            // This object has not been created correctly?
-            throw new IllegalStateException(e);
-        }
+	try {
+	    ByteField exp = (ByteField) getSubfield(CVCTagEnum.MODULUS);
+	    return new BigInteger(1, exp.getData());
+	} catch (NoSuchFieldException e) {
+	    // This object has not been created correctly?
+	    throw new IllegalStateException(e);
+	}
     }
 
 }

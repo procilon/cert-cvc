@@ -33,7 +33,7 @@ public class CAReferenceField extends ReferenceField {
      *            - Sequence Number (exactly 5 alphanumeric characters)
      */
     public CAReferenceField(String country, String mnemonic, String seq) {
-        super(CVCTagEnum.CA_REFERENCE, country, mnemonic, seq);
+	super(CVCTagEnum.CA_REFERENCE, country, mnemonic, seq);
     }
 
     /**
@@ -42,7 +42,7 @@ public class CAReferenceField extends ReferenceField {
      * @param data
      */
     public CAReferenceField(byte[] data) {
-        super(CVCTagEnum.CA_REFERENCE, data);
+	super(CVCTagEnum.CA_REFERENCE, data);
     }
 
 }

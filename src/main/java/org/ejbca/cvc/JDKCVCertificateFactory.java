@@ -26,92 +26,77 @@ import java.util.Collection;
 import org.ejbca.cvc.exception.ConstructionException;
 import org.ejbca.cvc.exception.ParseException;
 
-
 /**
  * Class for dealing with CVC certificates.
  * <p>
- * At the moment this will deal with binary encoded CVC certificates. Only one CVC certificate can be in the input stream passed.
- * Bouncy Castle's JDKX509CertificateFactory was used as template for this class.
+ * At the moment this will deal with binary encoded CVC certificates. Only one
+ * CVC certificate can be in the input stream passed. Bouncy Castle's
+ * JDKX509CertificateFactory was used as template for this class.
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
  * @version $Id: JDKCVCertificateFactory.java 6007 2008-08-13 08:37:38Z keijox $
  */
-public class JDKCVCertificateFactory
-    extends CertificateFactorySpi
-{
+public class JDKCVCertificateFactory extends CertificateFactorySpi {
 
-    private byte[] readBytes(InputStream in) throws IOException
-    {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        int len = 0;
-        byte[] buf = new byte[512];
-        while ((len = in.read(buf)) > 0) {
-            os.write(buf, 0, len);
-        }
-        in.close();
-        os.close();
+    private byte[] readBytes(InputStream in) throws IOException {
+	ByteArrayOutputStream os = new ByteArrayOutputStream();
+	int len = 0;
+	byte[] buf = new byte[512];
+	while ((len = in.read(buf)) > 0) {
+	    os.write(buf, 0, len);
+	}
+	in.close();
+	os.close();
 
-        return os.toByteArray();
+	return os.toByteArray();
     }
 
     /**
-     * Generates a certificate object and initializes it with the data
-     * read from the input stream inStream.
+     * Generates a certificate object and initializes it with the data read from the
+     * input stream inStream.
      */
-    public Certificate engineGenerateCertificate(
-        InputStream in) 
-        throws CertificateException
-    {
-    	Certificate ret = null;
-    	
-        try {
-        	byte[] certData = readBytes(in);
-        	CVCertificate parsedObject = CertificateParser.parseCertificate(certData);
-        	ret = new CardVerifiableCertificate(parsedObject);
-        } catch (IOException e) {
-            throw new CertificateException(e.toString());
-        } catch (ParseException e) {
-            throw new CertificateException(e.toString());
-		} catch (ConstructionException e) {
-            throw new CertificateException(e.toString());
-		}
-        return ret;
+    public Certificate engineGenerateCertificate(InputStream in) throws CertificateException {
+	Certificate ret = null;
+
+	try {
+	    byte[] certData = readBytes(in);
+	    CVCertificate parsedObject = CertificateParser.parseCertificate(certData);
+	    ret = new CardVerifiableCertificate(parsedObject);
+	} catch (IOException e) {
+	    throw new CertificateException(e.toString());
+	} catch (ParseException e) {
+	    throw new CertificateException(e.toString());
+	} catch (ConstructionException e) {
+	    throw new CertificateException(e.toString());
+	}
+	return ret;
     }
 
     /**
-     * Returns a (possibly empty) collection view of the certificate
-     * read from the given input stream inStream.
+     * Returns a (possibly empty) collection view of the certificate read from the
+     * given input stream inStream.
      */
-    public Collection<Certificate> engineGenerateCertificates(
-        InputStream inStream) 
-        throws CertificateException
-    {
-    	// CVC can only have one certificate in a stream
-        Certificate     cert = engineGenerateCertificate(inStream);
-        ArrayList<Certificate> certs = new ArrayList<Certificate>();
-        certs.add(cert);
+    public Collection<Certificate> engineGenerateCertificates(InputStream inStream) throws CertificateException {
+	// CVC can only have one certificate in a stream
+	Certificate cert = engineGenerateCertificate(inStream);
+	ArrayList<Certificate> certs = new ArrayList<Certificate>();
+	certs.add(cert);
 
-        return certs;
+	return certs;
     }
 
-    /** 
+    /**
      * CRLs are not supported by CVC. Will always throw CRLException!
      */
-    public CRL engineGenerateCRL(
-        InputStream inStream) 
-        throws CRLException
-    {
-    	throw new CRLException("CVC CertificateFactory can not create CRLs");
+    public CRL engineGenerateCRL(InputStream inStream) throws CRLException {
+	throw new CRLException("CVC CertificateFactory can not create CRLs");
     }
 
-    /** 
+    /**
      * CRLs are not supported by CVC. Will always throw CRLException!
      */
-    public Collection<CRL> engineGenerateCRLs(
-        InputStream inStream) 
-        throws CRLException
-    {
-    	throw new CRLException("CVC CertificateFactory can not create CRLs");
+    public Collection<CRL> engineGenerateCRLs(InputStream inStream) throws CRLException {
+	throw new CRLException("CVC CertificateFactory can not create CRLs");
     }
 
 }
