@@ -6,9 +6,9 @@
 	<artifactId>cert-cvc</artifactId>
 	<packaging>jar</packaging>
 	<scm>
-		<connection>scm:svn:https://svn.cesecore.eu/svn/ejbca/trunk/cert-cvc/</connection>
-		<developerConnection>scm:svn:https://svn.cesecore.eu/svn/ejbca-restricted/trunk/cert-cvc/</developerConnection>
-		<url>http://fisheye.primekey.se/browse/EJBCA/trunk/cert-cvc</url>
+		<connection>scm:git:https://github.com/procilon/cert-cvc.git</connection>
+		<developerConnection>scm:git:https://github.com/procilon/cert-cvc.git</developerConnection>
+		<url>https://github.com/procilon/cert-cvc</url>
 	</scm>
 	<version>1.4.5</version>
 	<name>EAC 2.10 Card Verifiable Certificate Library</name>
