@@ -33,6 +33,12 @@
 			<organization>PrimeKey Solutions AB</organization>
 			<organizationUrl>https://www.primekey.se</organizationUrl>
 		</developer>
+		<developer>
+			<name>Max Fichtelmann</name>
+			<email>max.fichtelmann@procilon.de</email>
+			<organization>procilon IT-Logistics GmbH</organization>
+			<organizationUrl>https://www.procilon.de/</organizationUrl>
+		</developer>
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
