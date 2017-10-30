@@ -71,4 +71,13 @@ public class Value {
 	bytes.reset();
 	return binaryValue;
     }
+
+    /**
+     * Returns the length of this value.
+     * 
+     * @return the length of this value.
+     */
+    public int length() {
+	return bytes.remaining();
+    }
 }
