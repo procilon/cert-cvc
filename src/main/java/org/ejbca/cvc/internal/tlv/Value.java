@@ -77,7 +77,7 @@ public class Value {
      * 
      * @return the length of this value.
      */
-    public int length() {
+    public int size() {
 	return bytes.remaining();
     }
 }
