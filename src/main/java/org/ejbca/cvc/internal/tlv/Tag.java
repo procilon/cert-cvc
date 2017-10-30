@@ -26,8 +26,6 @@ public class Tag {
     private final TagClass tagClass;
     private final boolean constructed;
 
-    private int size = -1;
-
     /**
      * Create a tag with the provided information.
      * 
@@ -84,19 +82,16 @@ public class Tag {
      * @return the number of bytes needed to encode this tag.
      */
     public int size() {
-	if (size == -1) {
-	    if (tagNumber < 0x1F)
-		size = 1;
-	    else if (tagNumber < 0x80)
-		size = 2;
-	    else if (tagNumber < 0x4000)
-		size = 3;
-	    else if (tagNumber < 0x200000)
-		size = 4;
-	    else
-		size = 5;
-	}
-	return size;
+	if (tagNumber < 0x1F)
+	    return 1;
+	else if (tagNumber < 0x80)
+	    return 2;
+	else if (tagNumber < 0x4000)
+	    return 3;
+	else if (tagNumber < 0x200000)
+	    return 4;
+	else
+	    return 5;
     }
 
     /**
