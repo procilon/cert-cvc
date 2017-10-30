@@ -17,7 +17,6 @@ import java.io.File;
 import org.ejbca.cvc.CVCObject;
 import org.ejbca.cvc.CertificateParser;
 
-
 /**
  * Example code for parsing a DER-encoded byte array
  * 
@@ -26,19 +25,19 @@ import org.ejbca.cvc.CertificateParser;
  */
 public final class Parse {
 
-	private Parse() {}
+    private Parse() {
+    }
 
-   public static void main(final String[] args) {
-      File file = new File("C:/cv_certs/mycert1.cvcert");
-      
-      try {
-         final byte[] certData = FileHelper.loadFile(file);
-         final CVCObject cvc = CertificateParser.parseCVCObject(certData);
-         System.out.println(cvc.getAsText()); // NOPMD
-      }
-      catch (Exception e) {
-         e.printStackTrace(); // NOPMD
-      }
-   }
+    public static void main(final String[] args) {
+	File file = new File("C:/cv_certs/mycert1.cvcert");
+
+	try {
+	    final byte[] certData = FileHelper.loadFile(file);
+	    final CVCObject cvc = CertificateParser.parseCVCObject(certData);
+	    System.out.println(cvc.getAsText()); // NOPMD
+	} catch (Exception e) {
+	    e.printStackTrace(); // NOPMD
+	}
+    }
 
 }

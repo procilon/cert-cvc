@@ -20,33 +20,33 @@ package org.ejbca.cvc.exception;
  */
 public class CvcException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-   /**
-    * @see Exception
-    */
-   public CvcException() {
-      super();
-   }
+    /**
+     * @see Exception
+     */
+    public CvcException() {
+	super();
+    }
 
-   /**
-    * @see Exception
-    */
-   public CvcException(final String msg) {
-      super(msg);
-   }
+    /**
+     * @see Exception
+     */
+    public CvcException(final String msg) {
+	super(msg);
+    }
 
-   /**
-    * @see Exception
-    */
-   public CvcException(final Throwable t){
-      super(t);
-   }
+    /**
+     * @see Exception
+     */
+    public CvcException(final Throwable t) {
+	super(t);
+    }
 
-   /**
-    * @see Exception
-    */
-   public CvcException(final String msg, final Throwable t){
-      super(msg, t);
-   }
+    /**
+     * @see Exception
+     */
+    public CvcException(final String msg, final Throwable t) {
+	super(msg, t);
+    }
 }

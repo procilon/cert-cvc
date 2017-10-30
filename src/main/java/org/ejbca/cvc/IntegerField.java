@@ -32,41 +32,41 @@ public class IntegerField extends AbstractDataField {
      * @param value
      */
     IntegerField(CVCTagEnum tag, int value) {
-        super(tag);
-        this.intValue = value;
+	super(tag);
+	this.intValue = value;
     }
 
     /**
-     * Constructs a new instance by parsing DER-encoded data. If the length of
-     * data is > 4 then IllegalArgumentException is thrown.
+     * Constructs a new instance by parsing DER-encoded data. If the length of data
+     * is > 4 then IllegalArgumentException is thrown.
      * 
      * @param tag
      * @param data
      */
     IntegerField(CVCTagEnum tag, byte[] data) {
-        super(tag);
-        if (data != null && data.length > 4) {
-            throw new IllegalArgumentException("Byte array too long, max is 4, was " + data.length);
-        }
-        this.intValue = new BigInteger(1, data).intValue();
+	super(tag);
+	if (data != null && data.length > 4) {
+	    throw new IllegalArgumentException("Byte array too long, max is 4, was " + data.length);
+	}
+	this.intValue = new BigInteger(1, data).intValue();
     }
 
     public void setValue(int intValue) {
-        this.intValue = intValue;
+	this.intValue = intValue;
     }
 
     public int getValue() {
-        return intValue;
+	return intValue;
     }
 
     @Override
     protected byte[] getEncoded() {
-        return toByteArray(intValue);
+	return toByteArray(intValue);
     }
 
     @Override
     protected String valueAsText() {
-        return "" + intValue;
+	return "" + intValue;
     }
 
 }

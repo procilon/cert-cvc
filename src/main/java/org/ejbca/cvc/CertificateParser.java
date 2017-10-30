@@ -19,10 +19,9 @@ import java.io.IOException;
 import org.ejbca.cvc.exception.ConstructionException;
 import org.ejbca.cvc.exception.ParseException;
 
-
 /**
- * Class responsible for decoding a DER-encoded CVC object, like a
- * CVCertificate or any other instance of CVCObject. 
+ * Class responsible for decoding a DER-encoded CVC object, like a CVCertificate
+ * or any other instance of CVCObject.
  * 
  * @author Keijo Kurkinen, Swedish National Police Board
  * @version $Id: CertificateParser.java 9077 2010-05-20 10:57:01Z anatom $
@@ -30,129 +29,125 @@ import org.ejbca.cvc.exception.ParseException;
  */
 public final class CertificateParser {
 
-   // Only static methods...
-   private CertificateParser(){
-   }
-   
-   /**
-    * Decodes a DER-encoded byte array containing any CVCObject
-    * @param data
-    * @return
-    */
-   public static CVCObject parseCVCObject(byte[] data) throws ParseException, ConstructionException {
-      return decode(data, null);
-   }
+    // Only static methods...
+    private CertificateParser() {
+    }
 
+    /**
+     * Decodes a DER-encoded byte array containing any CVCObject
+     * 
+     * @param data
+     * @return
+     */
+    public static CVCObject parseCVCObject(byte[] data) throws ParseException, ConstructionException {
+	return decode(data, null);
+    }
 
-   /**
-    * Decodes a DER-encoded byte array containing a CVCertificate
-    * @param data
-    * @return
-    */
-   public static CVCertificate parseCertificate(byte[] data) throws ParseException, ConstructionException {
-      return (CVCertificate)decode(data, CVCTagEnum.CV_CERTIFICATE);
-   }
+    /**
+     * Decodes a DER-encoded byte array containing a CVCertificate
+     * 
+     * @param data
+     * @return
+     */
+    public static CVCertificate parseCertificate(byte[] data) throws ParseException, ConstructionException {
+	return (CVCertificate) decode(data, CVCTagEnum.CV_CERTIFICATE);
+    }
 
-   // Creates InputStreams and starts the decoding
-   private static CVCObject decode(byte[] data, CVCTagEnum expectedTag) throws ParseException, ConstructionException {
-      ByteArrayInputStream bin = null;
-      try {
-         try {
-            bin = new ByteArrayInputStream(data);
-            DataInputStream din = new DataInputStream(bin);
-            return decode(din, expectedTag);
-         }
-         finally {
-            if( bin!=null ){
-               bin.close();
-            }
-         }
-      }
-      catch( IOException e ){
-         throw new ParseException(e);
-      }
-   }
+    // Creates InputStreams and starts the decoding
+    private static CVCObject decode(byte[] data, CVCTagEnum expectedTag) throws ParseException, ConstructionException {
+	ByteArrayInputStream bin = null;
+	try {
+	    try {
+		bin = new ByteArrayInputStream(data);
+		DataInputStream din = new DataInputStream(bin);
+		return decode(din, expectedTag);
+	    } finally {
+		if (bin != null) {
+		    bin.close();
+		}
+	    }
+	} catch (IOException e) {
+	    throw new ParseException(e);
+	}
+    }
 
-   // Performs the actual decoding
-   private static CVCObject decode(DataInputStream din, CVCTagEnum expectedTag) 
-   throws IOException, ConstructionException, ParseException {
-      // First chunk to decode is the tag
-      int tagValue = decodeTag(din);
-      CVCTagEnum tag = findTagFromValue(tagValue);
+    // Performs the actual decoding
+    private static CVCObject decode(DataInputStream din, CVCTagEnum expectedTag)
+	    throws IOException, ConstructionException, ParseException {
+	// First chunk to decode is the tag
+	int tagValue = decodeTag(din);
+	CVCTagEnum tag = findTagFromValue(tagValue);
 
-      // Validate the tag if a specific one was expected here
-      if( expectedTag!=null && tag!=expectedTag ){
-         throw new ParseException("Expected first tag " + expectedTag + " but found " + tag);
-      }
+	// Validate the tag if a specific one was expected here
+	if (expectedTag != null && tag != expectedTag) {
+	    throw new ParseException("Expected first tag " + expectedTag + " but found " + tag);
+	}
 
-      // The second chunk to decode is the field length
-      int length = CVCObject.decodeLength(din);
+	// The second chunk to decode is the field length
+	int length = CVCObject.decodeLength(din);
 
-      if( tag.isSequence() ){
-         // Save the position where data for this sequence ends
-         int sequenceEnd = din.available() - length;
+	if (tag.isSequence()) {
+	    // Save the position where data for this sequence ends
+	    int sequenceEnd = din.available() - length;
 
-         // Create correct instance of AbstractSequence
-         AbstractSequence sequence = SequenceFactory.createSequence(tag);
-         
-         // Add this sequence's subfields through recursion
-         while( din.available() > sequenceEnd ) {
-            sequence.addSubfield(decode(din, null));
-         }
-         // If we got a GenericPublicKeyField we must map this 
-         // into an instance of CVCPublicKey before continuing
-         if( sequence instanceof GenericPublicKeyField ){
-            sequence = KeyFactory.createInstance((GenericPublicKeyField)sequence);
-         }
-         return sequence;
-      }
-      else {
-         // OK, it's a data field so just parse it
-         byte[] data = new byte[length];
-         din.read(data, 0, length);
-         return FieldFactory.decodeField(tag, data);
-      }
-   }
+	    // Create correct instance of AbstractSequence
+	    AbstractSequence sequence = SequenceFactory.createSequence(tag);
 
-   
+	    // Add this sequence's subfields through recursion
+	    while (din.available() > sequenceEnd) {
+		sequence.addSubfield(decode(din, null));
+	    }
+	    // If we got a GenericPublicKeyField we must map this
+	    // into an instance of CVCPublicKey before continuing
+	    if (sequence instanceof GenericPublicKeyField) {
+		sequence = KeyFactory.createInstance((GenericPublicKeyField) sequence);
+	    }
+	    return sequence;
+	} else {
+	    // OK, it's a data field so just parse it
+	    byte[] data = new byte[length];
+	    din.read(data, 0, length);
+	    return FieldFactory.decodeField(tag, data);
+	}
+    }
 
-   /* Maps a tag value to a specific CVCTagEnum. Note that there
-    * exists two tags with the same value (0x82)! In this case the
-    * first of these (EXPONENT) will be returned.
-    */
-   private static CVCTagEnum findTagFromValue(int tagvalue) throws ParseException{
-      CVCTagEnum wantedType = null;
-      for( CVCTagEnum type : CVCTagEnum.values() ){
-         if( type.getValue()==tagvalue ){
-            wantedType = type;
-            break;
-         }
-      }
-      if( wantedType!=null ){
-         return wantedType;
-      }
-      else {
-         throw new ParseException("Unknown CVC tag value " + Integer.toHexString(tagvalue));
-      }
-   }
-   
-   /**
-    * Reads a tag value from the input stream. Encoded according to ITU-T X.690
-    * @param din
-    * @return
-    */
-   private static int decodeTag(DataInputStream din) throws IOException {
-      int tagValue = 0;
-      int b1 = din.readUnsignedByte();
-      if( (b1 & 0x1F) == 0x1F ){
-         // There is another byte to read
-         byte b2 = din.readByte();
-         tagValue = (b1 << 8) + b2;
-      }
-      else {
-         tagValue = b1;
-      }
-      return tagValue;
-   }
-  
+    /*
+     * Maps a tag value to a specific CVCTagEnum. Note that there exists two tags
+     * with the same value (0x82)! In this case the first of these (EXPONENT) will
+     * be returned.
+     */
+    private static CVCTagEnum findTagFromValue(int tagvalue) throws ParseException {
+	CVCTagEnum wantedType = null;
+	for (CVCTagEnum type : CVCTagEnum.values()) {
+	    if (type.getValue() == tagvalue) {
+		wantedType = type;
+		break;
+	    }
+	}
+	if (wantedType != null) {
+	    return wantedType;
+	} else {
+	    throw new ParseException("Unknown CVC tag value " + Integer.toHexString(tagvalue));
+	}
+    }
+
+    /**
+     * Reads a tag value from the input stream. Encoded according to ITU-T X.690
+     * 
+     * @param din
+     * @return
+     */
+    private static int decodeTag(DataInputStream din) throws IOException {
+	int tagValue = 0;
+	int b1 = din.readUnsignedByte();
+	if ((b1 & 0x1F) == 0x1F) {
+	    // There is another byte to read
+	    byte b2 = din.readByte();
+	    tagValue = (b1 << 8) + b2;
+	} else {
+	    tagValue = b1;
+	}
+	return tagValue;
+    }
+
 }

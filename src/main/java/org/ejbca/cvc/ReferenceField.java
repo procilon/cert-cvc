@@ -37,34 +37,34 @@ public abstract class ReferenceField extends AbstractDataField {
      *            - Sequence Number (exactly 5 alphanumeric characters)
      */
     public ReferenceField(CVCTagEnum tag, String country, String mnemonic, String seq) {
-        super(tag);
+	super(tag);
 
-        if (country.length() != 2) {
-            throw new IllegalArgumentException("Country code length must be 2, was " + country.length());
-        }
-        if (!isValidCountry(country)) {
-            throw new IllegalArgumentException("Unknown country code: " + country);
-        }
-        if (mnemonic.length() == 0) {
-            throw new IllegalArgumentException("Holder mnemonic too short, must have at least one character");
-        }
-        if (mnemonic.length() > 9) {
-            throw new IllegalArgumentException("Holder mnemonic too long, max=9, was " + mnemonic.length());
-        }
-        if (seq.length() != 5) {
-            throw new IllegalArgumentException("Sequence number must have length 5, was " + seq.length());
-        }
-        for (int i = 0; i < seq.length(); i++) {
-            // Validate character types
-            char c = seq.charAt(i);
-            if (!Character.isLetterOrDigit(c)) {
-                throw new IllegalArgumentException("Sequence number can only contain alphanumerics: " + seq);
-            }
-        }
+	if (country.length() != 2) {
+	    throw new IllegalArgumentException("Country code length must be 2, was " + country.length());
+	}
+	if (!isValidCountry(country)) {
+	    throw new IllegalArgumentException("Unknown country code: " + country);
+	}
+	if (mnemonic.length() == 0) {
+	    throw new IllegalArgumentException("Holder mnemonic too short, must have at least one character");
+	}
+	if (mnemonic.length() > 9) {
+	    throw new IllegalArgumentException("Holder mnemonic too long, max=9, was " + mnemonic.length());
+	}
+	if (seq.length() != 5) {
+	    throw new IllegalArgumentException("Sequence number must have length 5, was " + seq.length());
+	}
+	for (int i = 0; i < seq.length(); i++) {
+	    // Validate character types
+	    char c = seq.charAt(i);
+	    if (!Character.isLetterOrDigit(c)) {
+		throw new IllegalArgumentException("Sequence number can only contain alphanumerics: " + seq);
+	    }
+	}
 
-        this.country = country;
-        this.mnemonic = mnemonic;
-        this.sequence = seq;
+	this.country = country;
+	this.mnemonic = mnemonic;
+	this.sequence = seq;
     }
 
     /**
@@ -74,13 +74,13 @@ public abstract class ReferenceField extends AbstractDataField {
      * @param data
      */
     protected ReferenceField(CVCTagEnum tag, byte[] data) {
-        super(tag);
+	super(tag);
 
-        String dataStr = new String(data);
-        this.country = dataStr.substring(0, 2); // Has always length = 2
-        this.mnemonic = dataStr.substring(2, dataStr.length() - 5);
-        this.sequence = dataStr.substring(dataStr.length() - 5); // Has always
-                                                                 // length = 5
+	String dataStr = new String(data);
+	this.country = dataStr.substring(0, 2); // Has always length = 2
+	this.mnemonic = dataStr.substring(2, dataStr.length() - 5);
+	this.sequence = dataStr.substring(dataStr.length() - 5); // Has always
+								 // length = 5
     }
 
     /**
@@ -89,7 +89,7 @@ public abstract class ReferenceField extends AbstractDataField {
      * @return
      */
     public String getConcatenated() {
-        return country + mnemonic + sequence;
+	return country + mnemonic + sequence;
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class ReferenceField extends AbstractDataField {
      * @return
      */
     public String getCountry() {
-        return country;
+	return country;
     }
 
     /**
@@ -107,7 +107,7 @@ public abstract class ReferenceField extends AbstractDataField {
      * @return
      */
     public String getMnemonic() {
-        return mnemonic;
+	return mnemonic;
     }
 
     /**
@@ -116,28 +116,28 @@ public abstract class ReferenceField extends AbstractDataField {
      * @return
      */
     public String getSequence() {
-        return sequence;
+	return sequence;
     }
 
     @Override
     protected byte[] getEncoded() {
-        return getConcatenated().getBytes();
+	return getConcatenated().getBytes();
     }
 
     private boolean okChar(char c) {
-        return c >= 'A' && c <= 'Z';
+	return c >= 'A' && c <= 'Z';
     }
 
     // Validates country code according to ISO 3166. AR: Not anymore :-) Testing
     // needs "unusual" countries
     private boolean isValidCountry(String countryCode) {
-        return okChar(countryCode.charAt(0)) && okChar(countryCode.charAt(1));
+	return okChar(countryCode.charAt(0)) && okChar(countryCode.charAt(1));
 
     }
 
     @Override
     public String valueAsText() {
-        return country + "/" + mnemonic + "/" + sequence;
+	return country + "/" + mnemonic + "/" + sequence;
     }
 
 }

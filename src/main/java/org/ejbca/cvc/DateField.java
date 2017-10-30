@@ -38,13 +38,13 @@ public class DateField extends AbstractDataField {
     /** Date format when returning this object as text */
     private static final DateFormat FORMAT_PRINTABLE = new SimpleDateFormat("yyyy-MM-dd");
     static {
-        FORMAT_PRINTABLE.setTimeZone(GMTTIMEZONE);
+	FORMAT_PRINTABLE.setTimeZone(GMTTIMEZONE);
     }
 
     private Date date;
 
     DateField(CVCTagEnum type) {
-        super(type);
+	super(type);
     }
 
     /**
@@ -54,18 +54,18 @@ public class DateField extends AbstractDataField {
      * @param date
      */
     DateField(CVCTagEnum type, Date date) {
-        this(type);
+	this(type);
 
-        Calendar cal = Calendar.getInstance(GMTTIMEZONE);
-        cal.setTimeInMillis(date.getTime());
+	Calendar cal = Calendar.getInstance(GMTTIMEZONE);
+	cal.setTimeInMillis(date.getTime());
 
-        // Remove time part
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        cal.clear();
-        cal.set(year, month, day);
-        this.date = cal.getTime();
+	// Remove time part
+	int year = cal.get(Calendar.YEAR);
+	int month = cal.get(Calendar.MONTH);
+	int day = cal.get(Calendar.DAY_OF_MONTH);
+	cal.clear();
+	cal.set(year, month, day);
+	this.date = cal.getTime();
     }
 
     /**
@@ -75,26 +75,27 @@ public class DateField extends AbstractDataField {
      * @param data
      */
     DateField(CVCTagEnum type, byte[] data) {
-        this(type);
-        if (data == null || data.length != 6) {
-            throw new IllegalArgumentException("data argument must have length 6, was " + (data == null ? 0 : data.length));
-        }
-        int year = 2000 + data[0] * 10 + data[1];
-        int month = data[2] * 10 + data[3] - 1; // Java month index starts with
-                                                // 0...
-        int day = data[4] * 10 + data[5];
-        // Now create a Date instance using the decoded values
-        Calendar cal = Calendar.getInstance(GMTTIMEZONE);
-        cal.clear();
-        if (type == CVCTagEnum.EFFECTIVE_DATE) {
-            cal.set(year, month, day, 0, 0, 0);
-        } else { // EXPIRE_DATE
-            // Validity is inclusive this date, so to make sure that
-            // a Date comparison gives the expected result we add a
-            // time component
-            cal.set(year, month, day, 23, 59, 59);
-        }
-        date = cal.getTime();
+	this(type);
+	if (data == null || data.length != 6) {
+	    throw new IllegalArgumentException(
+		    "data argument must have length 6, was " + (data == null ? 0 : data.length));
+	}
+	int year = 2000 + data[0] * 10 + data[1];
+	int month = data[2] * 10 + data[3] - 1; // Java month index starts with
+						// 0...
+	int day = data[4] * 10 + data[5];
+	// Now create a Date instance using the decoded values
+	Calendar cal = Calendar.getInstance(GMTTIMEZONE);
+	cal.clear();
+	if (type == CVCTagEnum.EFFECTIVE_DATE) {
+	    cal.set(year, month, day, 0, 0, 0);
+	} else { // EXPIRE_DATE
+	    // Validity is inclusive this date, so to make sure that
+	    // a Date comparison gives the expected result we add a
+	    // time component
+	    cal.set(year, month, day, 23, 59, 59);
+	}
+	date = cal.getTime();
     }
 
     /**
@@ -103,7 +104,7 @@ public class DateField extends AbstractDataField {
      * @return
      */
     public Date getDate() {
-        return date;
+	return date;
     }
 
     /**
@@ -114,27 +115,27 @@ public class DateField extends AbstractDataField {
      */
     @Override
     protected byte[] getEncoded() {
-        byte[] dateArr = new byte[DATE_ARRAY_SIZE];
+	byte[] dateArr = new byte[DATE_ARRAY_SIZE];
 
-        Calendar cal = Calendar.getInstance(GMTTIMEZONE);
-        cal.setTimeInMillis(date.getTime());
-        int year = cal.get(Calendar.YEAR) - 2000; // Year is encoded as 08, 09,
-                                                  // 10 ...
-        int month = cal.get(Calendar.MONTH) + 1; // Month is encoded as 1,2, ...
-                                                 // ,12
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        dateArr[0] = (byte) (year / 10);
-        dateArr[1] = (byte) (year % 10);
-        dateArr[2] = (byte) (month / 10);
-        dateArr[3] = (byte) (month % 10);
-        dateArr[4] = (byte) (day / 10);
-        dateArr[5] = (byte) (day % 10);
-        return dateArr;
+	Calendar cal = Calendar.getInstance(GMTTIMEZONE);
+	cal.setTimeInMillis(date.getTime());
+	int year = cal.get(Calendar.YEAR) - 2000; // Year is encoded as 08, 09,
+						  // 10 ...
+	int month = cal.get(Calendar.MONTH) + 1; // Month is encoded as 1,2, ...
+						 // ,12
+	int day = cal.get(Calendar.DAY_OF_MONTH);
+	dateArr[0] = (byte) (year / 10);
+	dateArr[1] = (byte) (year % 10);
+	dateArr[2] = (byte) (month / 10);
+	dateArr[3] = (byte) (month % 10);
+	dateArr[4] = (byte) (day / 10);
+	dateArr[5] = (byte) (day % 10);
+	return dateArr;
     }
 
     @Override
     protected String valueAsText() {
-        return FORMAT_PRINTABLE.format(date);
+	return FORMAT_PRINTABLE.format(date);
     }
 
 }

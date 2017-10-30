@@ -30,10 +30,10 @@ public class CVCProvider extends Provider {
     public static String PROVIDER_NAME = "CVC";
 
     public CVCProvider() {
-        super(PROVIDER_NAME, version, INFO);
+	super(PROVIDER_NAME, version, INFO);
 
-        put("CertificateFactory.CVC", JDKCVCertificateFactory.class.getName());
-        put("Alg.Alias.CertificateFactory.CVC", "CVC");
+	put("CertificateFactory.CVC", JDKCVCertificateFactory.class.getName());
+	put("Alg.Alias.CertificateFactory.CVC", "CVC");
     }
 
 }

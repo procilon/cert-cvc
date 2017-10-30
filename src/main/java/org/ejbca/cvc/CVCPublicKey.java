@@ -27,18 +27,18 @@ public abstract class CVCPublicKey extends AbstractSequence implements PublicKey
     private static final long serialVersionUID = 5330644668163139836L;
 
     CVCPublicKey() {
-        super(CVCTagEnum.PUBLIC_KEY);
+	super(CVCTagEnum.PUBLIC_KEY);
     }
 
     // Implements java.security.PublicKey
     public byte[] getEncoded() {
-        byte[] data = null;
-        try {
-            data = getDEREncoded();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
+	byte[] data = null;
+	try {
+	    data = getDEREncoded();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return data;
     }
 
     /**
@@ -47,7 +47,7 @@ public abstract class CVCPublicKey extends AbstractSequence implements PublicKey
      * @return
      */
     public OIDField getObjectIdentifier() throws NoSuchFieldException {
-        return (OIDField) getSubfield(CVCTagEnum.OID);
+	return (OIDField) getSubfield(CVCTagEnum.OID);
     }
 
 }

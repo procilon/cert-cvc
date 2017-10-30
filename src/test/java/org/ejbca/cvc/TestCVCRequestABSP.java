@@ -27,30 +27,26 @@ import org.ejbca.cvc.example.FileHelper;
  * @author Keijo Kurkinen, Swedish National Police Board
  * @version $Id: TestCVCRequestABSP.java 9075 2010-05-20 08:09:08Z anatom $
  */
-public class TestCVCRequestABSP
-      extends TestCase implements CVCTest {
+public class TestCVCRequestABSP extends TestCase implements CVCTest {
 
+    protected void setUp() throws Exception {
+	// Install Bouncy Castle as security provider
+	Security.addProvider(new BouncyCastleProvider());
+    }
 
-   protected void setUp() throws Exception {
-      // Install Bouncy Castle as security provider 
-      Security.addProvider(new BouncyCastleProvider());
-   }
+    protected void tearDown() throws Exception {
+	// Uninstallera BC
+	Security.removeProvider("BC");
+    }
 
-   protected void tearDown() throws Exception {
-      // Uninstallera BC 
-      Security.removeProvider("BC");
-   }
-
-
-   /** Check: OID should have been set to a specific value */
-   public void testCVCRequestABSP() throws Exception {
-	      byte[] bytes = FileHelper.loadFile(new File("./src/test/resources/absp.cvcert"));
-	      CVCertificate cvc = (CVCertificate)CertificateParser.parseCVCObject(bytes);
-	      PublicKey pk = cvc.getCertificateBody().getPublicKey();
-	      bytes = FileHelper.loadFile(new File("./src/test/resources/absp.req"));
-	      CVCAuthenticatedRequest authreq = (CVCAuthenticatedRequest)CertificateParser.parseCVCObject(bytes);
-	      authreq.verify(pk);	      
-   }
-
+    /** Check: OID should have been set to a specific value */
+    public void testCVCRequestABSP() throws Exception {
+	byte[] bytes = FileHelper.loadFile(new File("./src/test/resources/absp.cvcert"));
+	CVCertificate cvc = (CVCertificate) CertificateParser.parseCVCObject(bytes);
+	PublicKey pk = cvc.getCertificateBody().getPublicKey();
+	bytes = FileHelper.loadFile(new File("./src/test/resources/absp.req"));
+	CVCAuthenticatedRequest authreq = (CVCAuthenticatedRequest) CertificateParser.parseCVCObject(bytes);
+	authreq.verify(pk);
+    }
 
 }
