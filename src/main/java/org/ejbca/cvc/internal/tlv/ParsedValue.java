@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * @author fichtelmannm
  *
  */
-public class ParsedValue {
+public class ParsedValue implements Value {
     private final ByteBuffer bytes;
 
     /**
@@ -28,43 +28,36 @@ public class ParsedValue {
 	this.bytes = bytes;
     }
 
-    /**
-     * Get access to a duplicate of the underlying {@link ByteBuffer}.
-     * 
-     * @return a duplicate of the underlying {@link ByteBuffer}.
-     * @see ByteBuffer#duplicate()
+    /* (non-Javadoc)
+     * @see org.ejbca.cvc.internal.tlv.Value#bytes()
      */
+    @Override
     public ByteBuffer bytes() {
 	return bytes.duplicate();
     }
 
-    /**
-     * Decodes this value with the provided charset.
-     * 
-     * @param charset
-     *            the charset to decode the value.
-     * @return the string representation of this value.
+    /* (non-Javadoc)
+     * @see org.ejbca.cvc.internal.tlv.Value#asString(java.nio.charset.Charset)
      */
+    @Override
     public String asString(Charset charset) {
 	CharBuffer result = charset.decode(bytes);
 	bytes.reset();
 	return result.toString();
     }
 
-    /**
-     * Decodes this value as ascii string.
-     * 
-     * @return the string representation of this value.
+    /* (non-Javadoc)
+     * @see org.ejbca.cvc.internal.tlv.Value#asString()
      */
+    @Override
     public String asString() {
 	return asString(StandardCharsets.US_ASCII);
     }
 
-    /**
-     * Copies the content of this value into a new byte array.
-     * 
-     * @return a bytearray with the content of this value.
+    /* (non-Javadoc)
+     * @see org.ejbca.cvc.internal.tlv.Value#asBytes()
      */
+    @Override
     public byte[] asBytes() {
 	byte[] binaryValue = new byte[bytes.remaining()];
 	bytes.get(binaryValue);
@@ -72,11 +65,10 @@ public class ParsedValue {
 	return binaryValue;
     }
 
-    /**
-     * Returns the length of this value.
-     * 
-     * @return the length of this value.
+    /* (non-Javadoc)
+     * @see org.ejbca.cvc.internal.tlv.Value#size()
      */
+    @Override
     public int size() {
 	return bytes.remaining();
     }

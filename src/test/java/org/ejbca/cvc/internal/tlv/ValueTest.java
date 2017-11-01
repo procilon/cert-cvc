@@ -17,7 +17,7 @@ public class ValueTest {
 	String testString = "Some test text";
 	ByteBuffer bytes = charset.encode(testString);
 
-	ParsedValue value = new ParsedValue(bytes.asReadOnlyBuffer());
+	Value value = new ParsedValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString());
     }
@@ -29,7 +29,7 @@ public class ValueTest {
 	String testString = "(╯°□°)╯︵ ┻━┻";
 	ByteBuffer bytes = charset.encode(testString);
 
-	ParsedValue value = new ParsedValue(bytes.asReadOnlyBuffer());
+	Value value = new ParsedValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString(charset));
     }
@@ -38,7 +38,7 @@ public class ValueTest {
     public void encodeBytes() throws Exception {
 	byte[] rawValue = Hex.decode("CAFEBABE");
 
-	ParsedValue value = new ParsedValue(ByteBuffer.wrap(rawValue));
+	Value value = new ParsedValue(ByteBuffer.wrap(rawValue));
 
 	assertEquals(Hex.toHexString(rawValue), Hex.toHexString(value.asBytes()));
     }
@@ -48,7 +48,7 @@ public class ValueTest {
 	String testString = "Some test text";
 	byte[] testBytes = testString.getBytes(StandardCharsets.US_ASCII);
 
-	ParsedValue value = new ParsedValue(ByteBuffer.wrap(testBytes));
+	Value value = new ParsedValue(ByteBuffer.wrap(testBytes));
 
 	assertEquals(testString, value.asString());
 	assertEquals(testString, value.asString());
@@ -60,7 +60,7 @@ public class ValueTest {
     public void safeAccessToBuffer() throws Exception {
 	byte[] rawValue = Hex.decode("CAFEBABE");
 
-	ParsedValue value = new ParsedValue(ByteBuffer.wrap(rawValue));
+	Value value = new ParsedValue(ByteBuffer.wrap(rawValue));
 	value.bytes().position(1);
 
 	assertEquals(Hex.toHexString(rawValue), Hex.toHexString(value.asBytes()));
