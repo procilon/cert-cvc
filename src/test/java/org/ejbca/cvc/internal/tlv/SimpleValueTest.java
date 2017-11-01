@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 
-public class ValueTest {
+public class SimpleValueTest {
     @Test
     public void encodeString() throws Exception {
 	Charset charset = StandardCharsets.US_ASCII;
@@ -17,7 +17,7 @@ public class ValueTest {
 	String testString = "Some test text";
 	ByteBuffer bytes = charset.encode(testString);
 
-	Value value = new ParsedValue(bytes.asReadOnlyBuffer());
+	Value value = new SimpleValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString());
     }
@@ -29,7 +29,7 @@ public class ValueTest {
 	String testString = "(╯°□°)╯︵ ┻━┻";
 	ByteBuffer bytes = charset.encode(testString);
 
-	Value value = new ParsedValue(bytes.asReadOnlyBuffer());
+	Value value = new SimpleValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString(charset));
     }
@@ -38,7 +38,7 @@ public class ValueTest {
     public void encodeBytes() throws Exception {
 	byte[] rawValue = Hex.decode("CAFEBABE");
 
-	Value value = new ParsedValue(ByteBuffer.wrap(rawValue));
+	Value value = new SimpleValue(ByteBuffer.wrap(rawValue));
 
 	assertEquals(Hex.toHexString(rawValue), Hex.toHexString(value.asBytes()));
     }
@@ -48,7 +48,7 @@ public class ValueTest {
 	String testString = "Some test text";
 	byte[] testBytes = testString.getBytes(StandardCharsets.US_ASCII);
 
-	Value value = new ParsedValue(ByteBuffer.wrap(testBytes));
+	Value value = new SimpleValue(ByteBuffer.wrap(testBytes));
 
 	assertEquals(testString, value.asString());
 	assertEquals(testString, value.asString());
@@ -60,7 +60,7 @@ public class ValueTest {
     public void safeAccessToBuffer() throws Exception {
 	byte[] rawValue = Hex.decode("CAFEBABE");
 
-	Value value = new ParsedValue(ByteBuffer.wrap(rawValue));
+	Value value = new SimpleValue(ByteBuffer.wrap(rawValue));
 	value.bytes().position(1);
 
 	assertEquals(Hex.toHexString(rawValue), Hex.toHexString(value.asBytes()));
