@@ -3,6 +3,12 @@ package org.ejbca.cvc.internal.tlv;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
+/**
+ * The Value in TLV.
+ * 
+ * @author fichtelmannm
+ *
+ */
 public interface Value {
 
     /**
