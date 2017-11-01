@@ -28,17 +28,11 @@ public class SimpleValue implements Value {
 	this.bytes = bytes;
     }
 
-    /* (non-Javadoc)
-     * @see org.ejbca.cvc.internal.tlv.Value#bytes()
-     */
     @Override
     public ByteBuffer bytes() {
 	return bytes.duplicate();
     }
 
-    /* (non-Javadoc)
-     * @see org.ejbca.cvc.internal.tlv.Value#asString(java.nio.charset.Charset)
-     */
     @Override
     public String asString(Charset charset) {
 	CharBuffer result = charset.decode(bytes);
@@ -46,17 +40,11 @@ public class SimpleValue implements Value {
 	return result.toString();
     }
 
-    /* (non-Javadoc)
-     * @see org.ejbca.cvc.internal.tlv.Value#asString()
-     */
     @Override
     public String asString() {
 	return asString(StandardCharsets.US_ASCII);
     }
 
-    /* (non-Javadoc)
-     * @see org.ejbca.cvc.internal.tlv.Value#asBytes()
-     */
     @Override
     public byte[] asBytes() {
 	byte[] binaryValue = new byte[bytes.remaining()];
@@ -65,11 +53,13 @@ public class SimpleValue implements Value {
 	return binaryValue;
     }
 
-    /* (non-Javadoc)
-     * @see org.ejbca.cvc.internal.tlv.Value#size()
-     */
     @Override
     public int size() {
 	return bytes.remaining();
+    }
+
+    @Override
+    public String toString() {
+	return "SimpleValue(size=" + size() + ")";
     }
 }

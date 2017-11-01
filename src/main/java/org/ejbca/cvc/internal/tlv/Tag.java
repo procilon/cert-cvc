@@ -143,6 +143,11 @@ public class Tag {
 	return new Tag(tagNo, tagClass, constructed);
     }
 
+    @Override
+    public String toString() {
+	return String.format("Tag(no=%d,class=%s,constructed=%b)", tagNumber, tagClass, constructed);
+    }
+
     private static void putMultiByteTag(ByteBuffer data, int tagNumber) {
 	byte[] stack = new byte[5];
 	int position = stack.length;

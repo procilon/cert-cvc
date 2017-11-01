@@ -100,6 +100,11 @@ public class Length {
 	}
     }
 
+    @Override
+    public String toString() {
+	return "Length(" + length + ")";
+    }
+
     private static int parseMultiByteLength(int numBytes, ByteBuffer data) {
 	switch (numBytes) {
 	case 1:
