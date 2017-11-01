@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * @author fichtelmannm
  *
  */
-public class ParsedValue implements Value {
+public class SimpleValue implements Value {
     private final ByteBuffer bytes;
 
     /**
@@ -23,7 +23,7 @@ public class ParsedValue implements Value {
      * @param bytes
      *            the bytes of this value.
      */
-    public ParsedValue(ByteBuffer bytes) {
+    public SimpleValue(ByteBuffer bytes) {
 	bytes.mark();
 	this.bytes = bytes;
     }
