@@ -17,7 +17,7 @@ public class SimpleValueTest {
 	String testString = "Some test text";
 	ByteBuffer bytes = charset.encode(testString);
 
-	Value value = new SimpleValue(bytes.asReadOnlyBuffer());
+	SimpleValue value = new SimpleValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString());
     }
@@ -29,7 +29,7 @@ public class SimpleValueTest {
 	String testString = "(╯°□°)╯︵ ┻━┻";
 	ByteBuffer bytes = charset.encode(testString);
 
-	Value value = new SimpleValue(bytes.asReadOnlyBuffer());
+	SimpleValue value = new SimpleValue(bytes.asReadOnlyBuffer());
 
 	assertEquals(testString, value.asString(charset));
     }
@@ -48,7 +48,7 @@ public class SimpleValueTest {
 	String testString = "Some test text";
 	byte[] testBytes = testString.getBytes(StandardCharsets.US_ASCII);
 
-	Value value = new SimpleValue(ByteBuffer.wrap(testBytes));
+	SimpleValue value = new SimpleValue(ByteBuffer.wrap(testBytes));
 
 	assertEquals(testString, value.asString());
 	assertEquals(testString, value.asString());

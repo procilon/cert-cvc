@@ -1,7 +1,6 @@
 package org.ejbca.cvc.internal.tlv;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 
 /**
  * The Value in TLV.
@@ -18,22 +17,6 @@ public interface Value {
      * @see ByteBuffer#duplicate()
      */
     ByteBuffer bytes();
-
-    /**
-     * Decodes this value with the provided charset.
-     * 
-     * @param charset
-     *            the charset to decode the value.
-     * @return the string representation of this value.
-     */
-    String asString(Charset charset);
-
-    /**
-     * Decodes this value as ascii string.
-     * 
-     * @return the string representation of this value.
-     */
-    String asString();
 
     /**
      * Copies the content of this value into a new byte array.

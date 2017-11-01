@@ -33,14 +33,24 @@ public class SimpleValue implements Value {
 	return bytes.duplicate();
     }
 
-    @Override
+    /**
+     * Decodes this value with the provided charset.
+     * 
+     * @param charset
+     *            the charset to decode the value.
+     * @return the string representation of this value.
+     */
     public String asString(Charset charset) {
 	CharBuffer result = charset.decode(bytes);
 	bytes.reset();
 	return result.toString();
     }
 
-    @Override
+    /**
+     * Decodes this value as ascii string.
+     * 
+     * @return the string representation of this value.
+     */
     public String asString() {
 	return asString(StandardCharsets.US_ASCII);
     }
