@@ -147,4 +147,9 @@ public class TLV {
     public static List<TLV> parseList(Value value) {
 	return parseList(value.bytes());
     }
+
+    @Override
+    public String toString() {
+	return String.format("TLV(%s,%s,%s)", tag, length, value);
+    }
 }
